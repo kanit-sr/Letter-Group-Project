@@ -1,0 +1,1 @@
+{"name":"letter-village-frontend","version":"1.0.0","private":true,"scripts":{"start":"react-scripts start","build":"react-scripts build","test":"react-scripts test"},"description":"","main":"index.js","keywords":[],"author":"","license":"ISC","type":"commonjs","dependencies":{"react":"^19.2.4","react-dom":"^19.2.4","react-scripts":"^5.0.1"}}
