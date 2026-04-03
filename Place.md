@@ -1,5 +1,3 @@
-## Place of each person
-
 - [[Oak]]: ที่นั่งคุยกัน (Talking space)
 - [[Film]]: ที่ที่ทำได้หลายอย่างมีหลายอย่างให้ทำ ครบถ้วน มีธรรมชาติ (A park closed and open)
 	- Closed connected with Open space
@@ -14,5 +12,11 @@
 	- Poker club 
 	- Billiard club
 - [[Pakkard]]:
-	- Kitchen (Fridge) For everyone.
+	- Kitchen (Fridge) for everyone.
 	- Park with bench grass journal book, at night star glazing, cat, ,คูน้ำ around park, a lot of flower 2-3 table and chair.
+- [[Pleum]]:
+	- สวนสาที่มีนั่งเล่น นั่งคุย
+	- ไม่ก็บ้านใครสักคนที่ชอบไว้รวมตัว
+	- ทำแดก ปาร์ตี้
+- [[Ford]]
+	- a gas station with a garage door shop with bare concrete as the walls half way from the village and the nearest town with some soviet mix music or maybe house mix playing inside with speakers and a broken car that hasn’t run for like years parking at the side lmaooo
