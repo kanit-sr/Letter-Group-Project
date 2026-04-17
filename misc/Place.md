@@ -7,7 +7,7 @@
 	- Allow only people in village.
 - [[June]]: Park with a lot of nature.
 - [[Nun]]: Toilet.
-- [[Man]]: All มั่วสุม
+- [[Panyakorn]]: All มั่วสุม
 	- Casino 
 	- Poker club 
 	- Billiard club
@@ -20,3 +20,7 @@
 	- ทำแดก ปาร์ตี้
 - [[Ford]]
 	- a gas station with a garage door shop with bare concrete as the walls half way from the village and the nearest town with some soviet mix music or maybe house mix playing inside with speakers and a broken car that hasn’t run for like years parking at the side lmaooo
+- [[Hunter]]
+	- Museum of his trying
+- [[Phatcharida]]
+	- ที่นั่งเล่นข้างหนองน้ำ ปิคนิค ต้นไม้ ดอกไม้ เยอะๆ แมวเยอะๆ
