@@ -62,64 +62,71 @@ Users can personalize their houses:
 |-------|-----------|---------|
 | **Frontend** | React 18+ | All UI components |
 | **Backend** | Node.js + Express | REST API server |
-| **Database** | PostgreSQL | Users, houses, letters, relationships |
-| **ORM** | Prisma | Type-safe database queries |
+| **Database** | MongoDB | Users, houses, letters, relationships |
+| **ODM** | Mongoose | Schema modeling and queries |
 | **Storage** | Cloudinary | User avatars, letter designs, house assets |
 | **Auth** | JWT + bcryptjs | Session management |
 
 ---
 
-## Database Schema
+## Database Models (MongoDB)
 
-### `users` table
-```sql
-id              uuid PRIMARY KEY (DEFAULT uuid_generate_v4())
-username        varchar(255) UNIQUE NOT NULL
-email           varchar(255) UNIQUE NOT NULL
-password_hash   varchar(255) NOT NULL
-avatar_url      varchar(500)
-created_at      timestamp DEFAULT now()
-updated_at      timestamp DEFAULT now()
+### `User` collection
+```js
+{
+   _id: ObjectId,
+   username: String,      // unique, required
+   email: String,         // unique, required
+   passwordHash: String,  // required
+   avatarUrl: String,
+   createdAt: Date,
+   updatedAt: Date
+}
 ```
 
-### `houses` table
-```sql
-id              uuid PRIMARY KEY (DEFAULT uuid_generate_v4())
-user_id         uuid UNIQUE NOT NULL REFERENCES users(id) ON DELETE CASCADE
-roof_color      varchar(7) DEFAULT '#8B4513'
-door_style      varchar(50) DEFAULT 'classic'
-wall_color      varchar(7) DEFAULT '#E8D7C3'
-garden_config   jsonb DEFAULT '{}'
-mailbox_style   varchar(50) DEFAULT 'default'
-updated_at      timestamp DEFAULT now()
+### `House` collection
+```js
+{
+   _id: ObjectId,
+   userId: ObjectId,      // ref: User, unique, required
+   roofColor: String,     // default '#8B4513'
+   doorStyle: String,     // default 'classic'
+   wallColor: String,     // default '#E8D7C3'
+   gardenConfig: Object,  // default {}
+   mailboxStyle: String,  // default 'default'
+   createdAt: Date,
+   updatedAt: Date
+}
 ```
 
-### `letters` table
-```sql
-id              uuid PRIMARY KEY (DEFAULT uuid_generate_v4())
-sender_id       uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE
-recipient_id    uuid REFERENCES users(id) ON DELETE CASCADE
-subject         varchar(255) NOT NULL
-body            text NOT NULL
-design_config   jsonb DEFAULT '{}'
-is_public       boolean DEFAULT false
-is_read         boolean DEFAULT false
-sent_at         timestamp DEFAULT now()
+### `Letter` collection
+```js
+{
+   _id: ObjectId,
+   senderId: ObjectId,      // ref: User, required
+   recipientId: ObjectId,   // ref: User, optional for public posts
+   subject: String,         // required
+   body: String,            // required
+   designConfig: Object,    // default {}
+   isPublic: Boolean,       // default false
+   isRead: Boolean,         // default false
+   sentAt: Date             // default Date.now
+}
 ```
 
 ### Relationships
-- **users ↔ houses**: 1-to-1 (one house per user)
-- **users ↔ letters**: 1-to-many as sender and 1-to-many as recipient
+- **User ↔ House**: one-to-one via `userId` unique index in `House`
+- **User ↔ Letter**: one-to-many as sender and one-to-many as recipient
 
 ---
 
 ## Development Conventions
 
-### PostgreSQL & Prisma
-- Use **Prisma schema** as single source of truth for the database
-- Run `prisma migrate dev` when changing schema
-- Use Prisma Client in backend for all queries (not raw SQL)
-- Model relationships explicitly in `schema.prisma`
+### MongoDB & Mongoose
+- Use **Mongoose schemas** as single source of truth for data shape and validation
+- Create/update indexes in model definitions and keep migrations/scripts in source control
+- Use Mongoose models in backend for all database queries
+- Model relationships with `ObjectId` refs (for example: `ref: "User"`)
 
 ### Code Organization
 ```
@@ -136,7 +143,8 @@ letter-village/
 │   │   ├── routes/         # API routes
 │   │   ├── controllers/    # Route handlers
 │   │   ├── middleware/     # Auth, error handling
-│   │   ├── prisma/         # Prisma schema & migrations
+│   │   ├── models/         # Mongoose models
+│   │   ├── config/         # Database and app config
 │   │   └── utils/          # Cloudinary, JWT, etc.
 │   └── package.json
 └── README.md
@@ -145,7 +153,8 @@ letter-village/
 ### Environment Variables
 Backend `.env`:
 ```
-DATABASE_URL="postgresql://user:password@localhost:5432/letter_village"
+MONGODB_URI="mongodb://127.0.0.1:27017"
+MONGODB_DB="letter_village"
 JWT_SECRET="your-secret-key"
 CLOUDINARY_CLOUD_NAME="..."
 CLOUDINARY_API_KEY="..."
@@ -220,31 +229,12 @@ REACT_APP_API_URL="http://localhost:5000"
 ## Key Files to Know
 
 - `.github/copilot-instructions.md` — This file; AI conventions and architecture
-- `backend/src/prisma/schema.prisma` — Database schema definition
+- `backend/src/config/db.js` — MongoDB connection setup
+- `backend/src/models/` — Mongoose model definitions
 - `backend/.env` — Secrets and config (never commit)
 - `frontend/src/utils/api.js` — API client utility
 
 ---
-
-## PostgreSQL Basics for This Project
-
-| Concept | Usage |
-|---------|-------|
-| **uuid** | Globally unique IDs (type `uuid` in Prisma) |
-| **REFERENCES** | Foreign key constraint (links tables) |
-| **DELETE CASCADE** | Auto-delete child records when parent deleted |
-| **jsonb** | Flexible JSON storage (garden_config, design_config) |
-| **UNIQUE** | Column must have unique values (username, email) |
-
-**Prisma Query Example:**
-```typescript
-// Get letters received by a user, including sender info
-const letters = await prisma.letter.findMany({
-  where: { recipient_id: userId },
-  include: { sender: { select: { username: true, avatar_url: true } } },
-  orderBy: { sent_at: 'desc' }
-});
-```
 
 ---
 
@@ -254,15 +244,14 @@ const letters = await prisma.letter.findMany({
 # Backend
 npm install                 # Install dependencies
 npm run dev                 # Start dev server (nodemon)
-npx prisma migrate dev      # Run database migrations
-npx prisma studio          # Open Prisma GUI
+# MongoDB runs externally (local service or Atlas)
 
 # Frontend
 npm install
 npm start                   # Start dev server
 
 # Database
-psql -U postgres            # Connect to PostgreSQL (CLI)
+
 ```
 
 ---
@@ -276,9 +265,9 @@ This project is a passion project built with ❤️ for those we love most.
 ## Next Steps to Get Started
 
 1. Clone repository and create `frontend/` and `backend/` folders
-2. Set up PostgreSQL database locally
+2. Set up MongoDB locally or create a MongoDB Atlas cluster
 3. Create `.env` files in both frontend and backend
-4. Initialize Prisma schema with the tables above
+4. Create Mongoose models for users, houses, and letters
 5. Begin with **Auth System** (step 1 in Build Order)
 
 Happy coding! 🏘️💌
