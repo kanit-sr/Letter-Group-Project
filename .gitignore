@@ -9,6 +9,7 @@ frontend/node_modules/
 !.env.example
 backend/.env
 backend/.env.*
+backend/.config.env
 !backend/.env.example
 frontend/.env
 frontend/.env.*
