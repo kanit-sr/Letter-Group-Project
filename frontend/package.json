@@ -1,1 +1,35 @@
-{"name":"letter-village-frontend","version":"1.0.0","private":true,"scripts":{"start":"react-scripts start","build":"react-scripts build","test":"react-scripts test"},"description":"","main":"index.js","keywords":[],"author":"","license":"ISC","type":"commonjs","dependencies":{"react":"^19.2.4","react-dom":"^19.2.4","react-scripts":"^5.0.1"}}
+{
+  "name": "letter-village-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test"
+  },
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "konva": "^10.3.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-konva": "^19.2.5",
+    "react-router-dom": "^7.17.0",
+    "react-scripts": "^5.0.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

@@ -1,0 +1,519 @@
+/* Letter Village — cozy cartoon theme ("feels like home") */
+
+:root {
+  --bg: #f7efe1;
+  --bg-2: #f1e6d2;
+  --surface: #fffdf8;
+  --ink: #4a4038;
+  --ink-soft: #978a79;
+  --primary: #cf9a64;
+  --primary-dark: #b67e48;
+  --accent: #c67a5e;
+  --accent-dark: #ad6249;
+  --leaf: #93a87d;
+  --leaf-dark: #76906a;
+  --sky: #cfe1e4;
+  --border: #e9ddc6;
+  --border-strong: #dcc9a8;
+  --danger: #bf5a4d;
+  --shadow: 0 8px 20px rgba(110, 80, 45, 0.10);
+  --shadow-sm: 0 3px 10px rgba(110, 80, 45, 0.08);
+  --radius: 14px;
+  --radius-sm: 10px;
+
+  /* Legacy aliases so older component styles keep resolving during the reskin */
+  --paper: var(--bg);
+  --seal: var(--accent);
+  --postmark: var(--leaf-dark);
+  --kraft: var(--primary);
+  --line: var(--border);
+  --line-strong: var(--border-strong);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Nunito", system-ui, sans-serif;
+  font-size: 1.02rem;
+  color: var(--ink);
+  background-color: var(--bg);
+  background-image: radial-gradient(circle at 12% -10%, var(--bg-2) 0%, transparent 42%),
+    radial-gradient(circle at 90% 0%, #ffe0cf 0%, transparent 38%);
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Quicksand", system-ui, sans-serif;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 0.6rem;
+  line-height: 1.15;
+}
+h1 {
+  font-size: 2rem;
+}
+
+a {
+  color: var(--accent-dark);
+  text-decoration: none;
+  font-weight: 700;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  font-family: "Quicksand", system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.5rem 1.2rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.08s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+button:hover:not(:disabled) {
+  background: var(--accent-dark);
+  box-shadow: var(--shadow);
+}
+button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+  box-shadow: none;
+}
+
+input,
+textarea,
+select {
+  font-family: "Nunito", sans-serif;
+  font-size: 1rem;
+  padding: 0.6rem 0.85rem;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: #fffdf8;
+  color: var(--ink);
+  width: 100%;
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--ink-soft);
+}
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(198, 122, 94, 0.18);
+}
+input[type="color"] {
+  padding: 0;
+  height: 38px;
+  cursor: pointer;
+}
+input[type="range"] {
+  padding: 0;
+  accent-color: var(--accent);
+}
+label {
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+label.inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+label.inline input {
+  width: auto;
+}
+
+/* Layout */
+.page {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3.5rem;
+}
+.muted {
+  color: var(--ink-soft);
+}
+.error {
+  color: var(--danger);
+  font-weight: 700;
+}
+.row {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.stack {
+  display: grid;
+  gap: 0.95rem;
+}
+
+/* Cards = soft rounded panels */
+.card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.4rem 1.5rem;
+}
+
+/* Nav = warm honey strip with a rounded bottom */
+.nav {
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+  padding: 0.7rem 1.5rem;
+  background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: #fff;
+  border-radius: 0 0 16px 16px;
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.nav a {
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  transition: background 0.15s ease;
+}
+.nav a:hover {
+  background: rgba(255, 255, 255, 0.22);
+  text-decoration: none;
+}
+.nav .brand {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 800;
+  font-size: 1.3rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.brand-icon {
+  width: 1.3em;
+  height: 1.3em;
+}
+.with-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.with-icon svg {
+  width: 1em;
+  height: 1em;
+  color: var(--accent);
+}
+.nav .spacer {
+  margin-left: auto;
+}
+.nav .badge {
+  display: inline-block;
+  background: #fff;
+  color: var(--accent-dark);
+  border-radius: 999px;
+  padding: 0 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  margin-left: 0.3rem;
+}
+.nav button {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: none;
+  padding: 0.4rem 0.95rem;
+}
+.nav button:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Auth */
+.auth {
+  max-width: 400px;
+  margin: 3.5rem auto;
+}
+.auth h1 {
+  text-align: center;
+}
+.auth .sub {
+  text-align: center;
+  margin-bottom: 1.4rem;
+}
+
+/* Village = a sunny neighborhood */
+.village-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 1.3rem;
+}
+.house-plot {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  font-weight: inherit;
+  color: var(--ink);
+  background: linear-gradient(180deg, var(--sky) 0% 55%, var(--leaf) 55% 100%);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.9rem 0.6rem 0.75rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+.house-plot:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  color: var(--ink);
+}
+.house-plot .name {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 700;
+  margin-top: 0.4rem;
+  color: var(--ink);
+}
+
+/* House stage = a little diorama */
+.house-stage {
+  background: linear-gradient(180deg, var(--sky) 0% 62%, var(--leaf) 62% 100%);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.6rem 2rem;
+  display: inline-flex;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Letters = cozy notes */
+.letter-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1rem;
+}
+.letter {
+  position: relative;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.3rem;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.letter::before {
+  /* a friendly colored corner tab */
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--leaf);
+}
+.letter.unread::before {
+  background: var(--accent);
+}
+.letter.unread::after {
+  content: "";
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.letter .subject {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--ink);
+  margin-top: 0.25rem;
+}
+.letter .from {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--leaf-dark);
+  margin: 0.1rem 0 0.6rem;
+}
+.letter .body {
+  font-family: "Caveat", cursive;
+  font-size: 1.5rem;
+  line-height: 1.35;
+  white-space: pre-wrap;
+  color: #5a4a3c;
+}
+
+/* Tabs = pill toggles */
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.3rem;
+}
+.tabs button {
+  background: var(--surface);
+  color: var(--ink-soft);
+  box-shadow: none;
+  border: 1.5px solid var(--border);
+}
+.tabs button:disabled {
+  background: var(--primary);
+  color: #fff;
+  opacity: 1;
+  border-color: var(--primary);
+}
+
+/* House Editor */
+.editor-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.editor-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+button.ghost {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1.5px solid var(--border-strong);
+  box-shadow: var(--shadow-sm);
+}
+button.ghost:hover:not(:disabled) {
+  background: #fff7ea;
+}
+.danger-btn {
+  background: var(--danger);
+  box-shadow: var(--shadow-sm);
+}
+.danger-btn:hover:not(:disabled) {
+  background: #c04638;
+}
+.editor-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr 230px;
+  gap: 1.1rem;
+  align-items: start;
+  margin-top: 0.75rem;
+}
+.editor-library {
+  max-height: 600px;
+  overflow-y: auto;
+}
+.upload-btn {
+  display: block;
+  text-align: center;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #fff;
+  background: var(--leaf);
+  border-radius: 999px;
+  padding: 0.6rem 0.9rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+.upload-btn:hover {
+  background: var(--leaf-dark);
+}
+.upload-btn input {
+  display: none;
+}
+.upload-hint {
+  font-size: 0.75rem;
+  margin: 0.5rem 0 0.85rem;
+}
+.lib-group {
+  margin-bottom: 0.85rem;
+}
+.lib-group .label {
+  font-weight: 800;
+  text-transform: capitalize;
+  margin-bottom: 0.35rem;
+  color: var(--ink-soft);
+}
+.lib-items {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+}
+.lib-item {
+  background: #fffdf8;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: none;
+  padding: 4px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lib-item:hover:not(:disabled) {
+  background: #fff;
+  border-color: var(--primary);
+  transform: none;
+}
+.lib-item img {
+  max-width: 100%;
+  max-height: 100%;
+  pointer-events: none;
+}
+.editor-canvas-wrap {
+  display: flex;
+  justify-content: center;
+}
+.editor-props .prop-row {
+  display: flex;
+  gap: 0.4rem;
+}
+.editor-props .prop-row button {
+  flex: 1;
+}
+@media (max-width: 900px) {
+  .editor-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+  .page {
+    padding: 1.25rem 0.9rem 2.5rem;
+  }
+  .nav {
+    flex-wrap: wrap;
+    gap: 0.5rem 0.7rem;
+    padding: 0.6rem 1rem;
+  }
+  .nav .brand {
+    font-size: 1.15rem;
+  }
+  .row {
+    gap: 1rem;
+  }
+}
